@@ -1,0 +1,87 @@
+import java.util.Scanner;
+
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
+    }
+}
+
+public class AddTwoNumbersLinkedList {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode current = dummyHead;
+        int carry = 0;
+
+        while (l1 != null || l2 != null) {
+            int sum = carry;
+            if (l1 != null) {
+                sum += l1.val;
+                l1 = l1.next;
+            }
+            if (l2 != null) {
+                sum += l2.val;
+                l2 = l2.next;
+            }
+            carry = sum / 10;
+            current.next = new ListNode(sum % 10);
+            current = current.next;
+        }
+
+        if (carry > 0) {
+            current.next = new ListNode(carry);
+        }
+
+        return dummyHead.next;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input for the first linked list
+        System.out.println("Enter the digits of the first linked list (in reverse order):");
+        ListNode l1 = createLinkedList(scanner);
+
+        // Input for the second linked list
+        System.out.println("Enter the digits of the second linked list (in reverse order):");
+        ListNode l2 = createLinkedList(scanner);
+
+        // Add the two linked lists
+        AddTwoNumbersLinkedList solution = new AddTwoNumbersLinkedList();
+        ListNode sum = solution.addTwoNumbers(l1, l2);
+
+        // Print the result
+        System.out.print("The sum of the two numbers as a linked list: ");
+        printLinkedList(sum);
+    }
+
+    private static ListNode createLinkedList(Scanner scanner) {
+        ListNode dummyHead = new ListNode(0);
+        ListNode current = dummyHead;
+
+        while (true) {
+            int digit = scanner.nextInt();
+            current.next = new ListNode(digit);
+            current = current.next;
+
+            System.out.print("Enter 0 to stop or enter the next digit: ");
+            int choice = scanner.nextInt();
+            if (choice == 0) {
+                break;
+            }
+        }
+
+        return dummyHead.next;
+    }
+
+    private static void printLinkedList(ListNode head) {
+        ListNode current = head;
+        while (current != null) {
+            System.out.print(current.val + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+}
